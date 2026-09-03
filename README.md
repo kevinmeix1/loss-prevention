@@ -6,6 +6,22 @@ Research-engineering system that answers:
 
 It demonstrates predictive ML, uplift / causal modeling, intervention ranking, tool-using agents, explainability, synthetic experimentation, and responsible AI — on **entirely synthetic data**.
 
+The recommendation is a constrained next-best action: the system separates risk prediction from
+treatment effect estimation, then ranks only interventions that remain feasible for the customer.
+
+```mermaid
+flowchart LR
+    Profile[Synthetic customer and policy context] --> Risk[Calibrated risk model]
+    Profile --> Uplift[Uplift and causal estimators]
+    Risk --> Factors[Risk-factor explanation]
+    Uplift --> Impact[Estimated intervention impact]
+    Factors --> Constraints[Eligibility, cost, and burden constraints]
+    Impact --> Constraints
+    Constraints --> Rank[Utility ranking]
+    Rank --> Agent[Grounded recommendation agent]
+    Agent --> Outcome[Recommendation and evaluation evidence]
+```
+
 ```
 Customer → Risk Model → Risk Factors → Candidate Interventions
         → Uplift / Causal Model → Expected Impact → Constraint Filtering
