@@ -1,0 +1,42 @@
+data:
+  n_customers: 5000
+  n_historical: 12000
+  seed: 42
+
+models:
+  predictive:
+    n_estimators: 120
+    max_depth: 6
+  uplift:
+    meta_learners: [s_learner, t_learner, x_learner]
+    causal_forest:
+      n_trees: 80
+      max_depth: 5
+      min_leaf: 40
+
+ranking:
+  weights:
+    expected_benefit: 1.0
+    confidence: 0.25
+    cost_penalty: 0.35
+    burden_penalty: 0.40
+    feasibility: 0.30
+  max_customer_burden: 0.85
+  min_confidence: 0.15
+  explore_epsilon: 0.08
+
+constraints:
+  suppress_recent_days: 90
+  max_interventions_per_year: 3
+  require_feasible: true
+
+evaluation:
+  test_size: 0.25
+  n_bootstrap: 40
+
+api:
+  host: 127.0.0.1
+  port: 8010
+
+ui:
+  port: 8510

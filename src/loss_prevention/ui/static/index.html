@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loss Prevention Agent</title>
+  <meta name="description" content="Uplift-aware insurance loss prevention recommendation system" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/app.css" />
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary">
+      <div class="brand">
+        <div class="brand-mark"><span aria-hidden="true"></span> Loss Prevention</div>
+        <p>Predict risk. Estimate who benefits. Recommend interventions that reduce loss.</p>
+      </div>
+      <nav class="side-nav" role="tablist" aria-label="Views">
+        <button type="button" class="active" data-tab="overview" role="tab" aria-selected="true">Risk Overview</button>
+        <button type="button" data-tab="factors" role="tab">Risk Factors</button>
+        <button type="button" data-tab="recs" role="tab">Interventions</button>
+        <button type="button" data-tab="impact" role="tab">Expected Impact</button>
+        <button type="button" data-tab="evidence" role="tab">Evidence & Agent</button>
+        <button type="button" data-tab="cf" role="tab">Counterfactual</button>
+        <button type="button" data-tab="methods" role="tab">Model Compare</button>
+        <button type="button" data-tab="research" role="tab">Research Lab</button>
+        <button type="button" data-tab="architecture" role="tab">Architecture</button>
+      </nav>
+      <div class="side-card">
+        <h3>Core distinction</h3>
+        <p>P(loss | X) identifies risk. CATE identifies who benefits from treatment T. They are not the same.</p>
+      </div>
+    </aside>
+
+    <main class="main" id="main">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow">Autonomous recommendation system</div>
+          <h1 id="pageTitle">Risk Overview</h1>
+        </div>
+        <div class="status-pill" id="statusPill" aria-live="polite">
+          <span class="dot" aria-hidden="true"></span><span>Ready</span>
+        </div>
+      </div>
+
+      <div class="controls" role="region" aria-label="Recommendation controls">
+        <div class="field">
+          <label for="customer">Customer</label>
+          <select id="customer" data-busy-disable aria-describedby="controlHint"></select>
+        </div>
+        <div class="field">
+          <label for="method">Uplift method</label>
+          <select id="method" data-busy-disable aria-describedby="controlHint">
+            <option value="x_learner">X-learner</option>
+            <option value="t_learner">T-learner</option>
+            <option value="s_learner">S-learner</option>
+            <option value="causal_forest">Causal forest</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="loadBtn" data-busy-disable type="button">Run recommendation</button>
+        <button class="btn btn-secondary" id="researchBtn" data-busy-disable type="button">Research snapshot</button>
+        <p class="control-hint" id="controlHint">Changing customer or method auto-runs the agent. Shortcut: Alt+1…9 switches views.</p>
+      </div>
+
+      <div class="pipeline" id="pipeline" aria-label="Decision pipeline stages"></div>
+
+      <section class="panel active" id="overview" role="tabpanel" aria-live="polite">
+        <div class="loading"><span class="spinner"></span> Loading workspace…</div>
+      </section>
+      <section class="panel" id="factors" role="tabpanel"></section>
+      <section class="panel" id="recs" role="tabpanel"></section>
+      <section class="panel" id="impact" role="tabpanel"></section>
+      <section class="panel" id="evidence" role="tabpanel"></section>
+      <section class="panel" id="cf" role="tabpanel">
+        <h2>What if we apply intervention X?</h2>
+        <p>Compare counterfactual loss probability under a chosen intervention using model-estimated CATE — not LLM speculation.</p>
+        <div class="controls" style="box-shadow:none;margin:1rem 0">
+          <div class="field">
+            <label for="cfIntervention">Intervention</label>
+            <select id="cfIntervention" data-busy-disable></select>
+          </div>
+          <button class="btn btn-primary" id="cfBtn" data-busy-disable type="button">Simulate</button>
+        </div>
+        <div id="cfOut" class="empty">Choose an intervention and click Simulate.</div>
+      </section>
+      <section class="panel" id="methods" role="tabpanel">
+        <h2>Meta-learner comparison</h2>
+        <p>Compare S/T/X-learners and causal forest CATE estimates for the same customer and intervention.</p>
+        <div class="controls" style="box-shadow:none;margin:1rem 0">
+          <div class="field">
+            <label for="methodIntervention">Intervention</label>
+            <select id="methodIntervention" data-busy-disable></select>
+          </div>
+          <button class="btn btn-primary" id="methodBtn" data-busy-disable type="button">Compare methods</button>
+        </div>
+        <div id="methodsOut" class="empty">Run a comparison to inspect model disagreement.</div>
+      </section>
+      <section class="panel" id="research" role="tabpanel">
+        <div class="empty">Click <strong>Research snapshot</strong> to load deployment metrics and experiment takeaways.</div>
+      </section>
+      <section class="panel" id="architecture" role="tabpanel"></section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/assets/app.js"></script>
+</body>
+</html>

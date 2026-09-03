@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+artifacts/
+data/generated/
+*.joblib
+.DS_Store
+.env
+.streamlit/secrets.toml
+dist/
+*.egg-info/
+.coverage
+htmlcov/
